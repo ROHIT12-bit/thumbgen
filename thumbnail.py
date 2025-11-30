@@ -8,7 +8,7 @@ import textwrap
 from io import BytesIO
 
 # ⚠️ YAHAN APNA NAYA TOKEN DAALNA (purana wala mat daalna)
-API_TOKEN = os.getenv("BOT_TOKEN", "YOUR_BOT_TOKEN_HERE")
+API_TOKEN = os.getenv("BOT_TOKEN", "7597391690:AAFdUlJBP46IJNvkaM6vIhW6J1fbmUTlkjA")
 bot = telebot.TeleBot(API_TOKEN)
 
 # Fonts
