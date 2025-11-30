@@ -14,12 +14,13 @@ bot = telebot.TeleBot(API_TOKEN)
 # Fonts
 FONTS_DIR = "fonts"
 try:
-    # Increased sizes again per user request
-    TITLE_FONT = ImageFont.truetype(os.path.join(FONTS_DIR, "BebasNeue-Regular.ttf"), 160)
-    BOLD_FONT = ImageFont.truetype(os.path.join(FONTS_DIR, "Roboto-Bold.ttf"), 42)
-    MEDIUM_FONT = ImageFont.truetype(os.path.join(FONTS_DIR, "Roboto-Medium.ttf"), 36)
-    REG_FONT = ImageFont.truetype(os.path.join(FONTS_DIR, "Roboto-Regular.ttf"), 30)
-    GENRE_FONT = ImageFont.truetype(os.path.join(FONTS_DIR, "Roboto-Bold.ttf"), 38)
+    # Use root BebasNeue-Regular.ttf for title (the one in fonts/ is empty)
+    TITLE_FONT = ImageFont.truetype("BebasNeue-Regular.ttf", 160)
+    # Use available Roboto variants (Bold, Medium, Regular are empty in fonts/)
+    BOLD_FONT = ImageFont.truetype(os.path.join(FONTS_DIR, "Roboto-SemiBold.ttf"), 42)
+    MEDIUM_FONT = ImageFont.truetype(os.path.join(FONTS_DIR, "Roboto-SemiBold.ttf"), 36)
+    REG_FONT = ImageFont.truetype(os.path.join(FONTS_DIR, "Roboto-Light.ttf"), 30)
+    GENRE_FONT = ImageFont.truetype(os.path.join(FONTS_DIR, "Roboto-SemiBold.ttf"), 38)
 except:
     TITLE_FONT = ImageFont.load_default()
     BOLD_FONT = ImageFont.load_default()
@@ -56,6 +57,15 @@ def draw_regular_polygon(draw, center, radius, n_sides=6, rotation=30, fill=None
         draw.polygon(points, outline=outline, width=width)
 
 def generate_hex_background():
+    # Use the hex_bg.png from fonts folder if available
+    hex_bg_path = os.path.join(FONTS_DIR, "hex_bg.png")
+    if os.path.exists(hex_bg_path):
+        try:
+            return Image.open(hex_bg_path).convert("RGBA")
+        except Exception:
+            pass  # Fall through to programmatic generation
+    
+    # Otherwise generate programmatically
     img = Image.new("RGBA", (CANVAS_WIDTH, CANVAS_HEIGHT), BG_COLOR)
     draw = ImageDraw.Draw(img)
 
