@@ -274,7 +274,7 @@ def generate_thumbnail(anime):
     desc = (anime['description'] or "").replace("<br>", " ").replace("<i>", "").replace("</i>", "")
     desc = " ".join(desc.split()[:40]) + "..." # Shorter desc for larger text
 
-    # Truncate title if too long
+    # Convert title to uppercase and truncate if too long
     title = truncate_text(title.upper(), TITLE_MAX_CHARS)
 
     # Background
@@ -295,13 +295,18 @@ def generate_thumbnail(anime):
         draw_text_with_outline(draw, (TEXT_PADDING, 140), rating_text, REG_FONT, TEXT_COLOR, outline_width=1)
 
     # 3. Title (Large, Below Rating) - with outline for readability
+    # Title is already uppercase from line above
     title_lines = wrap_text(title, TITLE_FONT, TITLE_MAX_WIDTH)
     title_y = 180
     title_line_height = 115  # Reduced from 140 to match smaller font
-    for line in title_lines[:2]:  # Max 2 lines
-        # Add ellipsis to last line if truncated
-        if len(title_lines) > 2 and line == title_lines[1]:
-            line = truncate_text(line, len(line) - 3) + "..."
+    for i, line in enumerate(title_lines[:2]):  # Max 2 lines
+        # Add ellipsis to last displayed line if there are more lines
+        if len(title_lines) > 2 and i == 1:
+            # Truncate and add ellipsis only if line doesn't already end with ...
+            if not line.rstrip().endswith("..."):
+                line = line.rstrip()
+                if len(line) > 3:
+                    line = line[:-3] + "..."
         draw_text_with_outline(draw, (TEXT_PADDING, title_y), line, TITLE_FONT, TEXT_COLOR, 
                                outline_width=TITLE_OUTLINE_WIDTH)
         title_y += title_line_height

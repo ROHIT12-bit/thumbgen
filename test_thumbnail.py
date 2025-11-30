@@ -14,6 +14,7 @@ This script tests:
 
 import os
 import sys
+import tempfile
 
 # Add the current directory to path
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
@@ -33,6 +34,9 @@ from thumbnail import (
     logger
 )
 from PIL import Image, ImageDraw
+
+# Use cross-platform temp directory
+TEMP_DIR = tempfile.gettempdir()
 
 
 def test_font_loading():
@@ -64,7 +68,7 @@ def test_placeholder_generation():
     print(f"  ✓ Generated placeholder: {placeholder.size}, mode={placeholder.mode}")
     
     # Save for visual inspection
-    output_path = "/tmp/test_placeholder.png"
+    output_path = os.path.join(TEMP_DIR, "test_placeholder.png")
     placeholder.save(output_path)
     print(f"  ✓ Saved placeholder to {output_path}")
     print()
@@ -105,7 +109,7 @@ def test_text_outline():
         outline_width=2
     )
     
-    output_path = "/tmp/test_outline.png"
+    output_path = os.path.join(TEMP_DIR, "test_outline.png")
     img.save(output_path)
     print(f"  ✓ Saved outline test to {output_path}")
     print()
@@ -133,7 +137,7 @@ def test_thumbnail_generation():
         result = generate_thumbnail(sample_anime)
         if result:
             # Save the generated thumbnail
-            output_path = "/tmp/test_thumbnail.png"
+            output_path = os.path.join(TEMP_DIR, "test_thumbnail.png")
             with open(output_path, 'wb') as f:
                 f.write(result.read())
             print(f"  ✓ Generated thumbnail saved to {output_path}")
@@ -167,7 +171,7 @@ def test_thumbnail_with_missing_poster():
     try:
         result = generate_thumbnail(sample_anime)
         if result:
-            output_path = "/tmp/test_thumbnail_placeholder.png"
+            output_path = os.path.join(TEMP_DIR, "test_thumbnail_placeholder.png")
             with open(output_path, 'wb') as f:
                 f.write(result.read())
             print(f"  ✓ Generated thumbnail with placeholder saved to {output_path}")
@@ -200,7 +204,7 @@ def test_long_title():
     try:
         result = generate_thumbnail(sample_anime)
         if result:
-            output_path = "/tmp/test_thumbnail_long_title.png"
+            output_path = os.path.join(TEMP_DIR, "test_thumbnail_long_title.png")
             with open(output_path, 'wb') as f:
                 f.write(result.read())
             print(f"  ✓ Generated thumbnail with long title saved to {output_path}")
@@ -229,7 +233,7 @@ def main():
     
     print("=" * 60)
     print("All tests completed!")
-    print("Check /tmp/test_*.png files for visual verification.")
+    print(f"Check {TEMP_DIR}/test_*.png files for visual verification.")
     print("=" * 60)
 
 
