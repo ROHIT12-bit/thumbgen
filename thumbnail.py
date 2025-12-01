@@ -42,7 +42,7 @@ PLACEHOLDER_BG = (40, 45, 55)
 FONTS_DIR = os.getenv("FONTS_DIR", "fonts")
 
 # TeleBot token (env) - replace with your token or set env BOT_TOKEN
-API_TOKEN = os.getenv("BOT_TOKEN", "7597391690:AAFdUlJBP46IJNvkaM6vIhW6J1fbmUTlkjA")
+API_TOKEN = os.getenv("BOT_TOKEN", "8388209429:AAGSHFmVDpZqryMYJur4FGYZAjUxWEe8VIk")
 # If you don't want to run bot and only want the generator, set NO_BOT=1
 NO_BOT = bool(os.getenv("NO_BOT", ""))
 
